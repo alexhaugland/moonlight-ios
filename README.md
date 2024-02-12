@@ -7,6 +7,7 @@ https://testflight.apple.com/join/4eE59dyH
 This is a fork I'm working on in my spare time that I would eventually like to upstream. If you encounter issues with the build please feel free to file an issue - or even better send a PR :D
 The visionOS code is located in the [`visionos` branch](https://github.com/alexhaugland/moonlight-ios/tree/visionos).
 
+--------
 
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/kwv8vpwr457lqn25/branch/master?svg=true)](https://ci.appveyor.com/project/cgutman/moonlight-ios/branch/master)
 
