@@ -411,8 +411,7 @@
             completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, NULL);
             return;
         }
-        NSURLCredential* newCredential = [NSURLCredential credentialWithIdentity:identity certificates:certArray persistence:NSURLCredential
-PersistencePermanent];
+        NSURLCredential* newCredential = [NSURLCredential credentialWithIdentity:identity certificates:certArray persistence:NSURLCredentialPersistencePermanent];
         completionHandler(NSURLSessionAuthChallengeUseCredential, newCredential);
     }
     else
