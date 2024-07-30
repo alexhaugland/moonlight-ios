@@ -322,9 +322,18 @@
 
 // Returns an array containing the certificate
 - (NSArray*)getCertificate:(SecIdentityRef) identity {
+    if (identity == nil) {
+        Log(LOG_E, @"Identity is nil");
+        return nil;
+    }
+
     SecCertificateRef certificate = nil;
+    OSStatus status = SecIdentityCopyCertificate(identity, &certificate);
     
-    SecIdentityCopyCertificate(identity, &certificate);
+    if (status != errSecSuccess) {
+        Log(LOG_E, @"Failed to copy certificate: %d", status);
+        return nil;
+    }
     
     return [[NSArray alloc] initWithObjects:(__bridge id)certificate, nil];
 }
@@ -397,7 +406,13 @@
     {
         SecIdentityRef identity = [self getClientCertificate];
         NSArray* certArray = [self getCertificate:identity];
-        NSURLCredential* newCredential = [NSURLCredential credentialWithIdentity:identity certificates:certArray persistence:NSURLCredentialPersistencePermanent];
+        if (identity == nil || certArray == nil) {
+            Log(LOG_E, @"Client certificate or identity is nil");
+            completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, NULL);
+            return;
+        }
+        NSURLCredential* newCredential = [NSURLCredential credentialWithIdentity:identity certificates:certArray persistence:NSURLCredential```objc
+PersistencePermanent];
         completionHandler(NSURLSessionAuthChallengeUseCredential, newCredential);
     }
     else
