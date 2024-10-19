@@ -6,9 +6,11 @@
 //  Copyright (c) 2014 Moonlight Stream. All rights reserved.
 //
 
-#import "TemporaryApp.h"
 #import "HttpManager.h"
-#import "TemporaryHost.h"
+
+
+@class TemporaryApp;
+@class TemporaryHost;
 
 @protocol AppAssetCallback <NSObject>
 

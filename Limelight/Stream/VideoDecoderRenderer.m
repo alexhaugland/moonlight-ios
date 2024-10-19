@@ -35,6 +35,8 @@ extern int ff_isom_write_av1c(AVIOContext *pb, const uint8_t *buf, int size,
     
     CADisplayLink* _displayLink;
     BOOL framePacing;
+    
+    CGRect _lastKnownSize;
 }
 
 - (void)reinitializeDisplayLayer
@@ -75,6 +77,10 @@ extern int ff_isom_write_av1c(AVIOContext *pb, const uint8_t *buf, int size,
         CFRelease(formatDesc);
         formatDesc = nil;
     }
+    
+    [_view.widthAnchor constraintEqualToAnchor:_view.heightAnchor multiplier:_streamAspectRatio].active = true;
+    
+    _lastKnownSize = _view.bounds;
 }
 
 - (id)initWithView:(StreamView*)view callbacks:(id<ConnectionCallbacks>)callbacks streamAspectRatio:(float)aspectRatio useFramePacing:(BOOL)useFramePacing

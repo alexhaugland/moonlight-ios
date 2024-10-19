@@ -42,6 +42,7 @@
 		98F145362667D847004018E3 /* RtpAudioQueue.c in Sources */ = {isa = PBXBuildFile; fileRef = 98F145332667D847004018E3 /* RtpAudioQueue.c */; };
 		98F145372667D847004018E3 /* RtpVideoQueue.c in Sources */ = {isa = PBXBuildFile; fileRef = 98F145342667D847004018E3 /* RtpVideoQueue.c */; };
 		98F145382667D847004018E3 /* RtpVideoQueue.c in Sources */ = {isa = PBXBuildFile; fileRef = 98F145342667D847004018E3 /* RtpVideoQueue.c */; };
+		F72DD4D32BEEB14B0003CD8A /* OpenSSL in Frameworks */ = {isa = PBXBuildFile; productRef = F72DD4D22BEEB14B0003CD8A /* OpenSSL */; };
 		FB1A67F821324F4900507771 /* rs.c in Sources */ = {isa = PBXBuildFile; fileRef = 9857AEEE1EBE85E10084F99E /* rs.c */; };
 		FB1A67FA21324F4900507771 /* AudioStream.c in Sources */ = {isa = PBXBuildFile; fileRef = 98AB2E1A1CAD423B0089BB98 /* AudioStream.c */; };
 		FB1A67FB21324F4900507771 /* ByteBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 98AB2E1B1CAD423B0089BB98 /* ByteBuffer.c */; };
@@ -170,6 +171,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F72DD4D32BEEB14B0003CD8A /* OpenSSL in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,6 +356,9 @@
 			dependencies = (
 			);
 			name = "moonlight-common";
+			packageProductDependencies = (
+				F72DD4D22BEEB14B0003CD8A /* OpenSSL */,
+			);
 			productName = "limelight-common";
 			productReference = FB290E2E19B37A4E004C83CF /* libmoonlight-common.a */;
 			productType = "com.apple.product-type.library.static";
@@ -383,6 +388,9 @@
 				Base,
 			);
 			mainGroup = FB290E2519B37A4E004C83CF;
+			packageReferences = (
+				F72DD4D12BEEB14B0003CD8A /* XCRemoteSwiftPackageReference "OpenSSL-Package" */,
+			);
 			productRefGroup = FB290E2F19B37A4E004C83CF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -474,6 +482,7 @@
 		FB1A67F521324EE300507771 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -505,6 +514,7 @@
 		FB1A67F621324EE300507771 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -657,6 +667,7 @@
 		FB290E3319B37A4E004C83CF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = (
@@ -666,6 +677,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ld64";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
@@ -675,6 +687,7 @@
 		FB290E3419B37A4E004C83CF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = (
@@ -684,6 +697,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ld64";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
@@ -721,6 +735,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F72DD4D12BEEB14B0003CD8A /* XCRemoteSwiftPackageReference "OpenSSL-Package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzyzanowskim/OpenSSL-Package.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.5004;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F72DD4D22BEEB14B0003CD8A /* OpenSSL */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F72DD4D12BEEB14B0003CD8A /* XCRemoteSwiftPackageReference "OpenSSL-Package" */;
+			productName = OpenSSL;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FB290E2619B37A4E004C83CF /* Project object */;
 }

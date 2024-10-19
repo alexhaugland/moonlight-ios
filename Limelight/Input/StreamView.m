@@ -14,6 +14,7 @@
 #import "RelativeTouchHandler.h"
 #import "AbsoluteTouchHandler.h"
 #import "KeyboardInputField.h"
+#import "Moonlight-Swift.h"
 
 static const double X1_MOUSE_SPEED_DIVISOR = 2.5;
 
@@ -50,6 +51,8 @@ static const double X1_MOUSE_SPEED_DIVISOR = 2.5;
      interactionDelegate:(id<UserInteractionDelegate>)interactionDelegate
                   config:(StreamConfiguration*)streamConfig {
     self->interactionDelegate = interactionDelegate;
+    // Required to handle resizing of the underlying CALayers.
+    self.layer.delegate = self;
     self->streamAspectRatio = (float)streamConfig.width / (float)streamConfig.height;
     
     TemporarySettings* settings = [[[DataManager alloc] init] getSettings];
@@ -75,7 +78,7 @@ static const double X1_MOUSE_SPEED_DIVISOR = 2.5;
     }
     
     onScreenControls = [[OnScreenControls alloc] initWithView:self controllerSup:controllerSupport streamConfig:streamConfig];
-    OnScreenControlsLevel level = (OnScreenControlsLevel)[settings.onscreenControls integerValue];
+    OnScreenControlsLevel level = (OnScreenControlsLevel)settings.onscreenControls;
     if (settings.absoluteTouchMode) {
         Log(LOG_I, @"On-screen controls disabled in absolute touch mode");
         [onScreenControls setLevel:OnScreenControlsLevelOff];
@@ -124,6 +127,15 @@ static const double X1_MOUSE_SPEED_DIVISOR = 2.5;
         [x1mouse start];
     }
     
+    UIScene * scene = UIApplication.sharedApplication.connectedScenes.allObjects.firstObject;
+    if (scene && [scene isKindOfClass:[UIWindowScene class]]) {
+        UIWindowScene * windowScene = (UIWindowScene *) scene;
+        UIWindowSceneGeometryPreferencesVision * geometry = [[UIWindowSceneGeometryPreferencesVision alloc] initWithSize:CGSizeMake(self.bounds.size.height * streamAspectRatio, self.bounds.size.height)];
+        [windowScene requestGeometryUpdateWithPreferences:geometry errorHandler:^(NSError * error) {
+            
+        }];
+    }
+    
     // This is critical to ensure keyboard events are delivered to this
     // StreamView and not our parent UIView, especially on tvOS.
     [self becomeFirstResponder];
@@ -146,6 +158,25 @@ static const double X1_MOUSE_SPEED_DIVISOR = 2.5;
     // Notify the delegate if this was a new user interaction
     if (!timerAlreadyRunning) {
         [interactionDelegate userInteractionBegan];
+    }
+}
+
+- (void) layoutSublayersOfLayer:(CALayer* ) layer {
+    for (CALayer* layer in self.layer.sublayers) {
+        if ([layer isKindOfClass:[AVSampleBufferDisplayLayer class]]) {
+            CGSize videoSize;
+            if (self.bounds.size.width > self.bounds.size.height * streamAspectRatio) {
+                videoSize = CGSizeMake(self.bounds.size.height * streamAspectRatio, self.bounds.size.height);
+            } else {
+                videoSize = CGSizeMake(self.bounds.size.width, self.bounds.size.width / streamAspectRatio);
+            }
+            [CATransaction begin];
+            [ CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+            layer.frame = self.frame;
+            layer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+            layer.bounds = CGRectMake(0, 0, videoSize.width, videoSize.height);
+            [CATransaction commit];
+        }
     }
 }
 
@@ -361,7 +392,7 @@ static const double X1_MOUSE_SPEED_DIVISOR = 2.5;
                 // Prepare the textbox used to capture keyboard events.
                 keyInputField.delegate = self;
                 keyInputField.text = @"0";
-#if !TARGET_OS_TV
+#if !TARGET_OS_TV && !TARGET_OS_VISION
                 // Prepare the toolbar above the keyboard for more options
                 UIToolbar *customToolbarView = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 44)];
                 

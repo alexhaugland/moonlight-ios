@@ -8,8 +8,11 @@
 
 #import "ControllerSupport.h"
 #import "OnScreenControls.h"
-#import "Moonlight-Swift.h"
 #import "StreamConfiguration.h"
+
+
+enum X1MouseButton : uint8_t;
+@protocol X1KitMouseDelegate;
 
 @protocol UserInteractionDelegate <NSObject>
 
@@ -21,7 +24,9 @@
 #if TARGET_OS_TV
 @interface StreamView : UIView <X1KitMouseDelegate, UITextFieldDelegate>
 #else
-@interface StreamView : UIView <X1KitMouseDelegate, UITextFieldDelegate, UIPointerInteractionDelegate>
+@interface StreamView : UIView <CALayerDelegate, X1KitMouseDelegate, UITextFieldDelegate, UIPointerInteractionDelegate>
+-(void)layoutSublayersOfLayer:(CALayer *)layer;
+
 #endif
 
 - (void) setupStreamView:(ControllerSupport*)controllerSupport
