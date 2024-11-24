@@ -405,6 +405,9 @@ int DrSubmitDecodeUnit(PDECODE_UNIT decodeUnit);
 - (int)submitDecodeBuffer:(unsigned char *)data length:(int)length bufferType:(int)bufferType decodeUnit:(PDECODE_UNIT)du
 {
     OSStatus status;
+    CMBlockBufferRef dataBlockBuffer = NULL;
+    CMBlockBufferRef frameBlockBuffer = NULL;
+    CMSampleBufferRef sampleBuffer = NULL;
     
     // Construct a new format description object each time we receive an IDR frame
     if (du->frameType == FRAME_TYPE_IDR) {
@@ -438,6 +441,7 @@ int DrSubmitDecodeUnit(PDECODE_UNIT decodeUnit);
             const uint8_t* parameterSetPointers[parameterSetCount];
             size_t parameterSetSizes[parameterSetCount];
             for (int i = 0; i < parameterSetCount; i++) {
+                NSData* parameterSet```objective-c
                 NSData* parameterSet = parameterSetBuffers[i];
                 parameterSetPointers[i] = parameterSet.bytes;
                 parameterSetSizes[i] = parameterSet.length;
@@ -529,9 +533,6 @@ int DrSubmitDecodeUnit(PDECODE_UNIT decodeUnit);
     }
     
     // Now we're decoding actual frame data here
-    CMBlockBufferRef frameBlockBuffer;
-    CMBlockBufferRef dataBlockBuffer;
-    
     status = CMBlockBufferCreateWithMemoryBlock(NULL, data, length, kCFAllocatorDefault, NULL, 0, length, 0, &dataBlockBuffer);
     if (status != noErr) {
         Log(LOG_E, @"CMBlockBufferCreateWithMemoryBlock failed: %d", (int)status);
@@ -574,12 +575,12 @@ int DrSubmitDecodeUnit(PDECODE_UNIT decodeUnit);
         status = CMBlockBufferAppendBufferReference(frameBlockBuffer, dataBlockBuffer, 0, length, 0);
         if (status != noErr) {
             Log(LOG_E, @"CMBlockBufferAppendBufferReference failed: %d", (int)status);
+            CFRelease(dataBlockBuffer);
+            CFRelease(frameBlockBuffer);
             return DR_NEED_IDR;
         }
     }
         
-    CMSampleBufferRef sampleBuffer;
-    
     CMSampleTimingInfo sampleTiming = {kCMTimeInvalid, CMTimeMake(du->presentationTimeMs, 1000), kCMTimeInvalid};
     
     status = CMSampleBufferCreateReady(kCFAllocatorDefault,
