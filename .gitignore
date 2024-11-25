@@ -4,3 +4,4 @@
 Build
 DerivedData
 *.DS_Store
+.vscode/
