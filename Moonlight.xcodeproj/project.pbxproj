@@ -306,8 +306,6 @@
 		F7A119552B5DDF73001E8686 /* Moonlight Vision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Moonlight Vision.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7A1195A2B5DE1E2001E8686 /* MoonlightVisionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonlightVisionApp.swift; sourceTree = "<group>"; };
 		F7A1195C2B5DE1FD001E8686 /* MainContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentView.swift; sourceTree = "<group>"; };
-		F7A119EF2B5DE2EA001E8686 /* Moonlight copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Moonlight copy-Info.plist"; path = "/Users/ahaugland/Documents/github/moonlight-ios/Moonlight copy-Info.plist"; sourceTree = "<absolute>"; };
-		F7A119FF2B5DF387001E8686 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		F7A11A1D2B5DF457001E8686 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/XROS.platform/Developer/SDKs/XROS1.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		F7A11A1F2B5DF46B001E8686 /* RealityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealityKit.framework; path = Platforms/XROS.platform/Developer/SDKs/XROS1.0.sdk/System/Library/Frameworks/RealityKit.framework; sourceTree = DEVELOPER_DIR; };
 		F7A4A4D02B5F216C001591F3 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
@@ -620,14 +618,6 @@
 			path = "Moonlight Vision";
 			sourceTree = "<group>";
 		};
-		F7A119FE2B5DF387001E8686 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				F7A119FF2B5DF387001E8686 /* RealityKitContent */,
-			);
-			path = Packages;
-			sourceTree = "<group>";
-		};
 		FB1A67542132419700507771 /* Moonlight TV */ = {
 			isa = PBXGroup;
 			children = (
@@ -650,9 +640,7 @@
 				FB290CF919B2C406004C83CF /* Moonlight */,
 				FB1A67542132419700507771 /* Moonlight TV */,
 				FB290CF019B2C406004C83CF /* Frameworks */,
-				F7A119FE2B5DF387001E8686 /* Packages */,
 				FB290CEF19B2C406004C83CF /* Products */,
-				F7A119EF2B5DE2EA001E8686 /* Moonlight copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
