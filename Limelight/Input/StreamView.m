@@ -483,12 +483,14 @@ static const double X1_MOUSE_SPEED_DIVISOR = 2.5;
     if (@available(iOS 13.4, *)) {
         UITouch* touch = [touches anyObject];
         if (touch.type == UITouchTypeIndirectPointer) {
+#if !TARGET_OS_VISION
             if (@available(iOS 14.0, *)) {
                 if ([GCMouse current] != nil) {
                     // We'll handle this with GCMouse. Do nothing here.
                     return YES;
                 }
             }
+#endif
             
             UIEventButtonMask normalizedButtonMask;
             
@@ -688,12 +690,14 @@ static const double X1_MOUSE_SPEED_DIVISOR = 2.5;
 - (UIPointerRegion *)pointerInteraction:(UIPointerInteraction *)interaction
                        regionForRequest:(UIPointerRegionRequest *)request
                           defaultRegion:(UIPointerRegion *)defaultRegion API_AVAILABLE(ios(13.4)) {
+#if !TARGET_OS_VISION
     if (@available(iOS 14.0, *)) {
         if ([GCMouse current] != nil) {
             // We'll handle this with GCMouse. Do nothing here.
             return nil;
         }
     }
+#endif
     
     // This logic mimics what iOS does with AVLayerVideoGravityResizeAspect
     CGSize videoSize;
