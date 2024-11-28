@@ -1,6 +1,7 @@
 //
 
 import SwiftUI
+import GameController
 
 struct MainContentView: View {
     @EnvironmentObject private var viewModel: MainViewModel
@@ -17,6 +18,7 @@ struct MainContentView: View {
         if viewModel.activelyStreaming {
             ZStack {
                 StreamView(streamConfig: $viewModel.currentStreamConfig)
+                    .handlesGameControllerEvents(matching: .gamepad)
             }
             .onAppear {
                 guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
